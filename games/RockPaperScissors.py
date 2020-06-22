@@ -14,33 +14,38 @@ import random
 RPS_CHOICES = ("Rock", "Paper", "Scissors")
 
 
-def checkInput(check_me):  # function to validate input
+def checkInput(check_me):
+    """
+    Function to validate input. First letter of entry must be r, p, or s
+    """
     if check_me[0].lower() == 'r' or \
        check_me[0].lower() == 'p' or \
        check_me[0].lower() == 's':
         return  # valid input
     elif len(check_me) == 0:  # empty variable causes issue in game()
-        raise IndexError("CI Please enter at least one character")
-    else:
-        raise ValueError("CI Invalid entry")
+        raise IndexError("checkInput(): Please enter at least one character")
+    else:  # any other character is invalid
+        raise ValueError("checkInput(): Invalid entry")
 
 
-def game():  # function to
-    play_game = "Y"
-    while play_game and \
-          play_game[0].lower() == "y":  # game() loops until play_game not starting with "y"
+def game():
+    """
+    Function to represent game.
+    """
+    play_game = "Y"  # game ready to run
+    while play_game and play_game[0].lower() == "y":  # game() loops until play_game not starting with "y"
         user_rps = 3  # set default value and create variable
         user_str = input("Choose (R)ock, (P)aper, or (S)cissors: ")  # can reference RPS_CHOICES directly instead
         try:
             checkInput(user_str)  # validate input
-        except (IndexError, ValueError):
+        except (IndexError, ValueError):  # when checkInput raises either error, print same message
             print("Invalid input! Please start your response with either R, P, or S")
             continue
-        else:
-            pass
-        for item in range(len(RPS_CHOICES)):
+#        else:  # I don't remember if this is needed anymore, might've fixed the while loop and validation
+#            pass
+        for item in range(len(RPS_CHOICES)):  # iterates RPS list
             if user_str[0].lower() == RPS_CHOICES[item][0].lower():
-                user_rps = item
+                user_rps = item  # match if first letter is first of a choice: (r, p, s)
         comp_rps = random.randrange(3)  # randomly generate computer choice
         if user_rps == comp_rps:
             print("Tie!")
@@ -53,7 +58,7 @@ def game():  # function to
         else:
             print("You lose!")
             print(f"Opponent chose: {RPS_CHOICES[comp_rps]}\nYou chose: {RPS_CHOICES[user_rps]}")
-        play_game = input("\nPlay again? (Y)es or (N)o: ")
+        play_game = input("\nPlay again? (Y)es: ")  # game() leaves while loop if "y" is not entered
 
 
 if __name__ == "__main__":
