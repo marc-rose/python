@@ -14,6 +14,28 @@ import random
 RPS_CHOICES = ("Rock", "Paper", "Scissors")
 
 
+class Counter:
+    """
+    One object of this class represents a Counter with win/loss attributes
+    """
+    def __init__(self):
+        self.win = 0
+        self.loss = 0
+        self.tie = 0
+
+    def addWin(self):
+        self.win += 1
+
+    def addLoss(self):
+        self.loss += 1
+
+    def addTie(self):
+        self.tie += 1
+
+    def readScore(self):
+        print("Wins:\t%d\nLosses:\t%d\nTie:\t%d" % (self.win, self.loss, self.tie))
+
+
 def checkInput(check_me):
     """
     Function to validate input. First letter of entry must be r, p, or s
@@ -32,6 +54,7 @@ def game():
     """
     Function to represent game.
     """
+    game_score = Counter()
     play_game = "Y"  # game ready to run
     user_rps = None  # create variable before logic and reference
     while play_game and play_game[0].lower() == "y":  # game() loops until play_game not starting with "y"
@@ -48,15 +71,21 @@ def game():
         if user_rps == comp_rps:
             print("Tie!")
             print("You both chose: " + RPS_CHOICES[user_rps])
+            game_score.addTie()
         elif (user_rps == 0 and comp_rps == 2) or \
              (user_rps == 1 and comp_rps == 0) or \
              (user_rps == 2 and comp_rps == 1):
             print("You win!")
             print(f"Opponent chose: {RPS_CHOICES[comp_rps]}\nYou chose: {RPS_CHOICES[user_rps]}")
+            game_score.addWin()
         else:
             print("You lose!")
             print(f"Opponent chose: {RPS_CHOICES[comp_rps]}\nYou chose: {RPS_CHOICES[user_rps]}")
+            game_score.addLoss()
         play_game = input("\nPlay again? (Y)es: ")  # game() leaves while loop if "y" is not entered
+        if not play_game or play_game[0].lower() != "y":  # no entry or Yes not entered
+            print("You did not choose to play again")
+            game_score.readScore()
 
 
 if __name__ == "__main__":
