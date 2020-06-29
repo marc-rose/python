@@ -1,4 +1,4 @@
-import tkinter
+import tkinter  # must have tkinter for GUI functionality
 
 
 class templateView(tkinter.Frame):
